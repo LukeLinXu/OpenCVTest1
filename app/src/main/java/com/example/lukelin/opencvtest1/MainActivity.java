@@ -95,6 +95,6 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Log.d(TAG, "onCameraFrame: "+inputFrame);
-        return inputFrame.gray();
+        return inputFrame.rgba();
     }
 }
