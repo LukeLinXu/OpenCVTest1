@@ -11,6 +11,7 @@ import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.android.LoaderCallbackInterface;
 import org.opencv.android.OpenCVLoader;
+import org.opencv.core.CvType;
 import org.opencv.core.Mat;
 import org.opencv.core.MatOfPoint;
 import org.opencv.core.MatOfPoint2f;
@@ -137,16 +138,18 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 if (approxCurve.total() == 4) {
                     maxArea = contourarea;
                     maxAreaIdx = idx;
+                    approxCurve.convertTo(temp_contour, CvType.CV_32S);
                     largest_contours.add(temp_contour);
                     largest_contour = temp_contour;
                 }
             }
         }
         MatOfPoint temp_largest = largest_contours.get(largest_contours.size()-1);
-        largest_contours = new ArrayList<MatOfPoint>();
+        largest_contours.clear();
         largest_contours.add(temp_largest);
 
         Imgproc.cvtColor(edges, edges, Imgproc.COLOR_BayerBG2RGB);
+        edges = inputFrame.rgba();
         Imgproc.drawContours(edges, largest_contours, -1, new Scalar(0, 255, 0), 1);
 
         //create the new image here using the largest detected square
